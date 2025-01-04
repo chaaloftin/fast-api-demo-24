@@ -1,0 +1,11 @@
+fastapi[standard]==0.113.0  # Includes dependencies like Starlette, Pydantic, and Uvicorn
+pydantic==2.8.0             # For data validation and serialization
+
+black==23.9.1              # Code formatter
+isort==5.12.0              # Import sorter
+flake8==6.1.0              # Linter for PEP8 compliance
+mypy==1.6.1                # Static type checker
+
+pytest-cov==4.1.0          # Coverage reports for tests
+
+python-dotenv==1.0.0       # Load environment variables from `.env` files
