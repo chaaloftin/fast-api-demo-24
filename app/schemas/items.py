@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 
 class Item(BaseModel):
-    id: str
+    id: int
     name: str
     price: float
     tax: Union[float, None] = None
