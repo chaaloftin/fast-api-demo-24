@@ -1,15 +1,13 @@
-from typing import Literal, Union
+from typing import Annotated, Literal, Optional, Union
 from pydantic import BaseModel, Field
-
-from app.core.constants import USER_DEFAULT_MAX_AGE, USER_DEFAULT_MIN_AGE
 
 
 class User(BaseModel):
     name: str
-    age: Union[int, None] = None
+    age: Optional[int] = None
 
 
 class UserParams(BaseModel):
-    min_age: int = Field(USER_DEFAULT_MIN_AGE, ge=USER_DEFAULT_MIN_AGE)
-    max_age: int = Field(USER_DEFAULT_MIN_AGE, ge=USER_DEFAULT_MAX_AGE)
+    min_age: Optional[Annotated[int, Field(ge=0)]] = 0
+    max_age: Optional[Annotated[int, Field(ge=100)]] = 0
     order_by: Literal["age", "name"] = "age"

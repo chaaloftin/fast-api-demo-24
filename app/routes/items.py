@@ -1,11 +1,10 @@
 from typing import Annotated, List, Union
 from fastapi import APIRouter, Path, Query
-from pytest import param
 from app.schemas import Item, ItemParams
 
 
 router = APIRouter()
-
+items = [Item(id=1, name="Spam", price=1.0), Item(id=2, name="Juice", price=2.0)]
 
 # Leaving this here as an example of various types of query params
 # @router.get("/")
@@ -35,16 +34,12 @@ router = APIRouter()
 
 
 @router.get("/")
-async def get_all_items(params: Annotated[ItemParams, Query()]) -> List[Item]:
-    items = [Item(id=1, name="Spam", price=1.0), Item(id=2, name="Juice", price=2.0)]
-
-    results = [
-        item
-        for item in items
-        if item.price > params.min_price and item.price <= params.max_price
+async def get_all_items(
+    min_price: float = 0.0, max_price: float = 1000000
+) -> List[Item]:
+    return [
+        item for item in items if item.price > min_price and item.price <= max_price
     ]
-
-    return results
 
 
 @router.get("/{id}")
