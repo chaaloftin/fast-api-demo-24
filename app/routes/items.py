@@ -5,8 +5,34 @@ from app.schemas import Item
 
 
 router = APIRouter()
+items = [Item(id=1, name="Spam", price=1.0), Item(id=2, name="Juice", price=2.0)]
 
-from app.schemas import Item
+# Leaving this here as an example of various types of query params
+# @router.get("/")
+# async def get_all_items(
+#     required_q: Annotated[
+#         Union[str, None], Query(alias="required-q", max_length=10, deprecated=True)
+#     ] = None,
+#     q: Annotated[
+#         Union[str, None], Query(min_length=1, max_length=50, deprecated=True)
+#     ] = None,
+#     q_list: Annotated[
+#         Union[List[str], None], Query(alias="q-list", deprecated=True)
+#     ] = [],
+#     hidden_q: Annotated[Union[str, None], Query(include_in_schema=False)] = None,
+# ) -> Dict[str, Union[List[Item], str, List[str]]]:
+#     results: dict = {
+#         "items": [Item(id=1, name="Spam", price=1.0)],
+#         "required_q": required_q,
+#     }
+
+#     if q:
+#         results.update({"q": q})
+#     if q_list:
+#         results.update({"q_list": q_list})
+
+#     return results
+
 
 items = [
     Item(id=1, name="apple", price=0.5, tax=0.5, description="a single apple"),
