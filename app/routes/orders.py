@@ -1,8 +1,8 @@
 from http import HTTPStatus
-from typing import Annotated
+from typing import Annotated, List, Optional
 from fastapi import APIRouter, HTTPException, Path, Query
 
-from app.schemas import Order, OrderParams
+from app.schemas import Order
 
 router = APIRouter()
 
@@ -15,12 +15,24 @@ ORDERS = [
 
 @router.get("/{id}")
 async def get_orders(
-    id: Annotated[int, Path(ge=1)], params: Annotated[OrderParams, Query()]
-) -> Order:
-    order = next(order for order in ORDERS if order.id == id)
+    id: Annotated[int, Path(description="The target object's ID", ge=1)],
+    user_id: Optional[
+        Annotated[int, Query(description="The ID of the user", default=None, ge=1)]
+    ],
+    item_id: Optional[
+        Annotated[int, Query(description="The ID of the item", ge=1)]
+    ] = None,
+) -> List[Order]:
+    orders = [order for order in ORDERS if order.id == id]
 
-    if not order:
+    if not orders:
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND.value, detail="Order not found"
         )
-    return order
+
+    if user_id:
+        orders = [order for order in orders if order.user_id == user_id]
+    if item_id:
+        orders = [order for order in orders if order.item_id == item_id]
+
+    return orders
